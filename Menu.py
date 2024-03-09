@@ -51,12 +51,16 @@ class Menu(QMenuBar):
             self.window.editor.editor.setPlainText(data)
         self.window.workingFileLocation = openFileName
         self.window.setCentralWidget(self.window.editor)
+        self.window.editor.show()
 
     def openPreferencesHandler(self):
-       self.settingsWindow = SettingsWindow()
+       self.settingsWindow = SettingsWindow(self.window)
        self.settingsWindow.show()
 
     def openFindHandler(self):
+        if self.window.editor.isHidden() == True:
+            return
+        
         if  self.window.editor.findOpen == False:
             self.window.editor.findBar.show()
             self.window.editor.findBar.input.setFocus()

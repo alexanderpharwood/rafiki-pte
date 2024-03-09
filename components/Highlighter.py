@@ -6,9 +6,6 @@ class Highlighter(QSyntaxHighlighter):
         self.highlightFormat = QTextCharFormat()
         self.highlightFormat.setBackground(QColor("#384063"))
 
-    def highlightBlock(self, text):
-        print(self.document().find("test"))
-
         # pattern = r""
         # expression = QRegExp(pattern)
         # index = text.indexOf(expression)

@@ -1,5 +1,5 @@
-from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QMainWindow, QMainWindow, QLabel, QPushButton, QVBoxLayout, QWidget, QHBoxLayout
+from PyQt6.QtCore import Qt, QSettings
+from PyQt6.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QWidget, QHBoxLayout
 from Editor import Editor
 from Menu import Menu
 from components.PrimaryButton import PrimaryButton
@@ -11,6 +11,10 @@ class Window(QMainWindow):
 		self.setWindowTitle("RAFIKI PTE")
 		self.resize(800, 600)
 		self.setStyleSheet("QMainWindow { background-color: #272d44; color: #8e9fb4;}")
+		self.settings = QSettings("RAFIKI", "settings")
+		if self.settings.value("font_size") == None:
+			self.settings.setValue("font_size", "16px")
+
 
 		layout = QVBoxLayout()
 		subLayout = QHBoxLayout()
@@ -38,7 +42,8 @@ class Window(QMainWindow):
 		openFileButton = PrimaryButton("Open", self)
 		openFileButton.setHandler(self.loadEditorWithFile)
 
-		self.editor = Editor()
+		self.editor = Editor(self)
+		self.editor.hide()
 		layout.addWidget(splashHeader)
 		layout.addWidget(splashDescription)
 		layout.addSpacing(20)
@@ -61,6 +66,7 @@ class Window(QMainWindow):
 
 	def loadEditor(self):
 		self.setCentralWidget(self.editor)
+		self.editor.show()
 
 	def loadEditorWithFile(self):
 		self.menu.openActionHandler()
